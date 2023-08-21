@@ -3,7 +3,7 @@ import { measureRating } from '../renders/renders';
 import { ratingScale } from '../renders/renders';
 import SmoothScrollbar from 'smooth-scrollbar';
 import Notiflix from 'notiflix';
-import { isValidEmail } from './orderForm';
+
 const refs = {
   closeModalBtn: document.querySelector('.close-modal'),
   backdropModal: document.querySelector('.backdrop-recipes'),
@@ -21,7 +21,6 @@ const refs = {
   rateForm: document.querySelector('.rate-form'),
   sendRateBtn: document.querySelector('.send-rating-btn'),
 };
-// open\close a modal window
 
 export function OpenModal(currentBtn) {
   refs.closeModalBtn.addEventListener('click', CloseModal);
@@ -84,19 +83,19 @@ function checkRateInputs() {
   }
 }
 
-async function SubmitRate(e) {
-  e.preventDefault();
-  const data = {
-    rate: Number(e.target.elements['rating'].value),
-    email: e.target.elements['email'].value,
-  };
-  const id = refs.rateForm.dataset.id;
+// async function SubmitRate(e) {
+//   e.preventDefault();
+//   const data = {
+//     rate: Number(e.target.elements['rating'].value),
+//     email: e.target.elements['email'].value,
+//   };
+//   const id = refs.rateForm.dataset.id;
 
-  await patchRating(id, data);
-  Notiflix.Notify.success('Thank you for appreciating the recipe.');
+//   await patchRating(id, data);
+//   Notiflix.Notify.success('Thank you for appreciating the recipe.');
 
-  CloseModal();
-}
+//   CloseModal();
+// }
 
 function restoreForm() {
   [...refs.modalRateList.children].forEach(el =>
@@ -138,8 +137,6 @@ function CloseOnBtnClick(e) {
   if (e.key === 'Escape') CloseModal();
 }
 
-// bild the page
-
 async function genereteRecipe(id) {
   try {
     const recipe = await findRecipes(id);
@@ -171,8 +168,6 @@ function CreateMarkup(data) {
   const tags = data.tags;
   let tagslist = '';
   if (!tags[0]) {
-    // document.querySelector(".recipe-tags").classList.add("is-hidden-modal");
-    // console.log('Zero');
   } else {
     for (let k = 0; k < tags.length; k++) {
       tagslist += `<li class="recipe-tag">#${tags[k]}</li>`;
@@ -180,7 +175,7 @@ function CreateMarkup(data) {
   }
   let ingrList = '';
   for (let i = 0; i < ingr.length; i++) {
-    ingrList += `<li class="recipe-ingridient">${ingr[i].name} <span class="recipe-ps">${ingr[i].measure}</span></li>`;
+    ingrList += `<li class="recipe-ingredient">${ingr[i].name} <span class="recipe-ps">${ingr[i].measure}</span></li>`;
   }
   const fixRating =
     data.rating > 5 ? Number(5).toFixed(1) : data.rating.toFixed(1);
@@ -193,7 +188,7 @@ function CreateMarkup(data) {
       ${ratingScale(fixRating)}
         <p class="recipe-time">${data.time} min</p>
       </div>
-      <ul class="ingridients">
+      <ul class="ingredients">
         ${ingrList}
       </ul>
     </div>
@@ -212,9 +207,8 @@ function addScrollbarText() {
   const scrollbar = SmoothScrollbar.init(scrollbarBox, {
     alwaysShowTracks: true,
   });
-  // scrollbarBox.appendChild(`<p class="recipe-instr">${instructions}</p>`);
 
-  const scrollbarIngs = document.querySelector('.ingridients');
+  const scrollbarIngs = document.querySelector('.ingredients');
   const scrollbarSec = SmoothScrollbar.init(scrollbarIngs, {
     alwaysShowTracks: true,
   });
@@ -262,17 +256,16 @@ export function AddToFav({ target }) {
 }
 
 function removeListeners() {
-  // Main Modal
   refs.closeModalBtn.removeEventListener('click', CloseModal);
   refs.backdropModal.removeEventListener('click', CloseOnClick);
   refs.saveRecipeBtn.removeEventListener('click', AddToFav);
-  // Rating Modal
+
   refs.giveRatingBtn.removeEventListener('click', OpenRateModal);
   refs.closeRate.removeEventListener('click', CloseRateModal);
 
   refs.modalRateList.removeEventListener('click', GiveRate);
   refs.rateEmail.removeEventListener('input', checkRateInputs);
   refs.rateForm.removeEventListener('submit', SubmitRate);
-  // All
+
   window.removeEventListener('keydown', CloseOnBtnClick);
 }

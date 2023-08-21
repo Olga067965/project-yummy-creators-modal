@@ -2,9 +2,6 @@ const header = document.getElementById('js-header');
 const checkBoxes = document.querySelectorAll('.toggle-checkbox');
 const body = document.body;
 const search = document.querySelector('.search-res-container');
-const categories = document.querySelector('.container-allcategories');
-
-// Start
 
 const savedTheme = localStorage.getItem('theme');
 
@@ -30,23 +27,6 @@ if (savedTheme) {
 
 header.addEventListener('click', ({ target }) => {
   if (target.name === 'switch-theme') {
-    // if (body.classList.contains('dark')) {
-    //   body.classList.remove('dark');
-    //   body.classList.add('light');
-    //   search.classList.remove('dark-theme-add');
-    //   search.classList.add('light-theme-add');
-    //   categories.classList.remove('dark-theme-add');
-    //   categories.classList.add('light-theme-add');
-    //   localStorage.setItem('theme', 'light');
-    // } else {
-    //   body.classList.remove('light');
-    //   body.classList.add('dark');
-    //   search.classList.remove('light-theme-add');
-    //   search.classList.add('dark-theme-add');
-    //   categories.classList.remove('light-theme-add');
-    //   categories.classList.add('dark-theme-add');
-    //   localStorage.setItem('theme', 'dark');
-    // }
     foo();
   }
 });
@@ -57,7 +37,7 @@ function getConstants() {
   const pagMove = document.querySelectorAll('.move-button');
   const pagMore = document.querySelector('.more-button');
   const pagActive = document.querySelector('.tui-is-selected');
-  const bullets = document.querySelectorAll('.swiper-pagination-bullet');
+  // const bullets = document.querySelectorAll('.swiper-pagination-bullet');
   return { pagPrev, pagNext, pagMove, pagMore, pagActive, bullets };
 }
 
