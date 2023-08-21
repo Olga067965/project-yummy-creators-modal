@@ -48,6 +48,25 @@ export function OpenModal(currentBtn) {
   refs.saveRecipeBtn.addEventListener('click', AddToFav);
 }
 
+function isValidEmail(email) {
+  const regex = /\S+@\S+\.\S+/;
+  return regex.test(email);
+}
+
+async function SubmitRate(e) {
+  e.preventDefault();
+  const data = {
+    rate: Number(e.target.elements['rating'].value),
+    email: e.target.elements['email'].value,
+  };
+  const id = refs.rateForm.dataset.id;
+
+  await patchRating(id, data);
+  Notiflix.Notify.success('Thank you for appreciating the recipe.');
+
+  CloseModal();
+}
+
 function OpenRateModal() {
   refs.mainModalRecipes.classList.add('is-hidden-modal');
   refs.rateModal.classList.remove('is-hidden-modal');
@@ -82,20 +101,6 @@ function checkRateInputs() {
     refs.sendRateBtn.disabled = false;
   }
 }
-
-// async function SubmitRate(e) {
-//   e.preventDefault();
-//   const data = {
-//     rate: Number(e.target.elements['rating'].value),
-//     email: e.target.elements['email'].value,
-//   };
-//   const id = refs.rateForm.dataset.id;
-
-//   await patchRating(id, data);
-//   Notiflix.Notify.success('Thank you for appreciating the recipe.');
-
-//   CloseModal();
-// }
 
 function restoreForm() {
   [...refs.modalRateList.children].forEach(el =>
